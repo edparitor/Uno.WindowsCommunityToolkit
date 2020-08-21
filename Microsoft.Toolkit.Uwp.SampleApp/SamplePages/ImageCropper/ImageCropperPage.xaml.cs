@@ -38,8 +38,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _imageCropper = control.FindChildByName("ImageCropper") as ImageCropper;
             if (_imageCropper != null)
             {
+#if HAS_UNO
+                var file = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync("Assets/Photos/Owl.jpg");
+                _imageCropper.LoadImageFromFile(file.Path);
+#else
                 var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Photos/Owl.jpg"));
                 await _imageCropper.LoadImageFromFile(file);
+#endif
             }
         }
 

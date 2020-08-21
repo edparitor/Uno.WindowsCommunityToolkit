@@ -55,23 +55,33 @@
 	  <XamarinAndroidSupportSkipVerifyVersions>true</XamarinAndroidSupportSkipVerifyVersions>
   </PropertyGroup>
 
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard'">
+    <PackageReference Include="SkiaSharp.Views" Version="2.80.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == 'Xamarin.Mac'">
+    <PackageReference Include="SkiaSharp.Views.Uno" Version="2.80.1" />
+  </ItemGroup>
+
   <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == 'Xamarin.Mac'">
     <PackageReference Include="Uno.UI" Version="3.0.0-dev.1549" />
     <PackageReference Include="Uno.ColorCode.UWP" Version="2.0.8-gd42a883502" />
 
-		<Page Remove="Eyedropper/**/*.xaml" />
+    <Page Remove="Eyedropper/**/*.xaml" />
 		<Page Remove="InfiniteCanvas/**/*.xaml" />
-		<Page Remove="ImageCropper/**/*.xaml" />
 		<Compile Remove="Eyedropper/**/*.cs" />
 		<Compile Remove="InfiniteCanvas/**/*.cs" />
-		<Compile Remove="ImageCropper/**/*.cs" />
+		<Compile Remove="ImageCropper/**/ImageCropper.Canvas.cs" />
 
 		<None Include="Eyedropper/**/*.*" />
 		<None Include="InfiniteCanvas/**/*.*" />
-		<None Include="ImageCropper/**/*.*" />
+		<None Include="ImageCropper/**/ImageCropper.Canvas.cs" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.16299'">
+		<Compile Remove="ImageCropper/**/ImageCropper.Canvas.Skia.cs" />
+		<None Include="ImageCropper/**/ImageCropper.Canvas.Skia.cs" />
+
     <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
