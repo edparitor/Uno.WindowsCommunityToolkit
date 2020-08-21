@@ -40,7 +40,6 @@
       <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\RadialGradientBrush\**" />
 			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\ImageBlendBrush\**" />
 			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\LoginButton\**" />
-			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\ImageCropper\**" />
 			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Eyedropper\**" />
 			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Weibo Service\**" />
 			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\PersonView\**" />

@@ -386,7 +386,8 @@
         "XamlCodeFile": "ImageCropperXaml.bind",
         "CodeFile": "ImageCropperCode.bind",
         "Icon": "/SamplePages/ImageCropper/ImageCropper.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ImageCropper.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ImageCropper.md",
+        "IsUno": true
       },
       {
         "Name": "Eyedropper",
