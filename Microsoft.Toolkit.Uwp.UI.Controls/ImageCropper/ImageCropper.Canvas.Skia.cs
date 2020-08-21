@@ -29,43 +29,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public void LoadImageFromFile(string imageFileName)
         {
             using (var fileStream = File.OpenRead(imageFileName))
+            using (var skiaBitmap = SKBitmap.Decode(fileStream))
+            using (var skiaImage = SKImage.FromPixels(skiaBitmap.PeekPixels()))
             {
-                System.Diagnostics.Debug.WriteLine($"fileStream {fileStream.Length}");
-                using (var skiaBitmap = SKBitmap.Decode(fileStream))
+                var info = new SKImageInfo(skiaImage.Width, skiaImage.Height);
+                using (var bitmap = new WriteableBitmap(info.Width, info.Height))
+                using (var tempImage = SKImage.Create(info))
+                using (var pixmap = tempImage.PeekPixels())
+                using (var data = SKData.Create(pixmap.GetPixels(), info.BytesSize))
                 {
-                    System.Diagnostics.Debug.WriteLine($"skiaBitmap {skiaBitmap != null}");
-                    using (var skiaImage = SKImage.FromPixels(skiaBitmap.PeekPixels()))
+                    if (skiaImage.ReadPixels(pixmap, 0, 0))
                     {
-                        System.Diagnostics.Debug.WriteLine($"skiaImage {skiaImage != null}");
-                        var info = new SKImageInfo(skiaImage.Width, skiaImage.Height);
-                        using (var bitmap = new WriteableBitmap(info.Width, info.Height))
-                        using (var tempImage = SKImage.Create(info))
+                        using (var stream = bitmap.PixelBuffer.AsStream())
                         {
-                            System.Diagnostics.Debug.WriteLine($"tempImage {tempImage != null}");
-                            using (var pixmap = tempImage.PeekPixels())
-                            {
-                                System.Diagnostics.Debug.WriteLine($"pixmap {pixmap != null}");
-                                using (var data = SKData.Create(pixmap.GetPixels(), info.BytesSize))
-                                {
-                                    System.Diagnostics.Debug.WriteLine($"data {data != null}");
-                                    if (skiaImage.ReadPixels(pixmap, 0, 0))
-                                    {
-                                        System.Diagnostics.Debug.WriteLine($"ReadPixels true");
-                                        using (var stream = bitmap.PixelBuffer.AsStream())
-                                        {
-                                            data.SaveTo(stream);
-                                        }
-
-                                        System.Diagnostics.Debug.WriteLine($"Saved data to stream");
-                                        Source = bitmap;
-                                    }
-                                    else
-                                    {
-                                        System.Diagnostics.Debug.WriteLine($"ReadPixels false");
-                                    }
-                                }
-                            }
+                            data.SaveTo(stream);
                         }
+                        
+                        Source = bitmap;
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("ReadPixels returned false");
                     }
                 }
             }
