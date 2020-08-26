@@ -5,11 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
@@ -39,8 +37,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_imageCropper != null)
             {
 #if HAS_UNO
+#if __ANDROID__
+                using (var drawable = Uno.Helpers.DrawableHelper.FromUri(new Uri("ms-appx:///Assets/Photos/Owl.jpg")))
+                {
+                    using (var bitmap = ((Android.Graphics.Drawables.BitmapDrawable)drawable).Bitmap)
+                    {
+                        var memoryStream = new MemoryStream();
+                        await bitmap.CompressAsync(Android.Graphics.Bitmap.CompressFormat.Jpeg, 100, memoryStream);
+                        memoryStream.Seek(0, SeekOrigin.Begin);
+                        _imageCropper.LoadImageFromStream(memoryStream);
+                    }
+                }
+#else
                 var file = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync("Assets/Photos/Owl.jpg");
-                _imageCropper.LoadImageFromFile(file.Path);
+                _imageCropper.LoadImageFromStream(File.OpenRead(file.Path));
+#endif
 #else
                 var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Photos/Owl.jpg"));
                 await _imageCropper.LoadImageFromFile(file);

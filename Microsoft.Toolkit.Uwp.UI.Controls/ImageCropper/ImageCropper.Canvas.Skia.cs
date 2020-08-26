@@ -23,13 +23,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class ImageCropper
     {
         /// <summary>
-        /// Load an image from a file.
+        /// Load an image from a stream.
         /// </summary>
-        /// <param name="imageFileName">The image file name.</param>
-        public void LoadImageFromFile(string imageFileName)
+        /// <param name="imageStream">The encoded image stream.</param>
+        public void LoadImageFromStream(Stream imageStream)
         {
-            using (var fileStream = File.OpenRead(imageFileName))
-            using (var skiaBitmap = SKBitmap.Decode(fileStream))
+            using (imageStream)
+            using (var skiaBitmap = SKBitmap.Decode(imageStream))
             using (var skiaImage = SKImage.FromPixels(skiaBitmap.PeekPixels()))
             {
                 var info = new SKImageInfo(skiaImage.Width, skiaImage.Height);
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             data.SaveTo(stream);
                         }
-                        
+
                         Source = bitmap;
                     }
                     else

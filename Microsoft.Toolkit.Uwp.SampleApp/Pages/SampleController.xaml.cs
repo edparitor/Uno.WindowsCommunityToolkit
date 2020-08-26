@@ -268,6 +268,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                     if (propertyDesc?.Options.Count > 0)
                     {
+                        if (InfoAreaPivot.Items.Contains(PropertiesPivotItem))
+                        {
+                            InfoAreaPivot.Items.Remove(PropertiesPivotItem);
+                        }
+
                         InfoAreaPivot.Items.Add(PropertiesPivotItem);
                     }
                 }
